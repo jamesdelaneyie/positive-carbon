@@ -8,7 +8,7 @@ const Dashboard = () => {
 
             <h1 className="text-2xl">Dashboard</h1>
 
-            <NavLink to={`/prices/`} className="inline-block text-sm mb-2 text-blue-500 hover:underline">View Commodities &rarr;</NavLink>
+            <NavLink to={`/commodities/`} className="inline-block text-sm mb-2 text-blue-500 hover:underline">View Commodities &rarr;</NavLink>
         </article>
 
     );

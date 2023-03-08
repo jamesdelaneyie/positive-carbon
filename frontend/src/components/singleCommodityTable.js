@@ -16,7 +16,7 @@ const SingleCommodityTable = () => {
     const latestCommodityDateTime = useRef({date: 0, time: 0});
 
     useEffect(() => {
-        fetch('/prices/' + symbol + '').then(res => res.json()).then(data => {
+        fetch('/commodities/' + symbol + '').then(res => res.json()).then(data => {
             setCommodityPrices(data);
             commodityName.current = data[0].commodity_name;
             latestCommodityPrice.current = data[0].price;
@@ -28,7 +28,7 @@ const SingleCommodityTable = () => {
 
       return (
         <article className="p-4 w-2/6">
-            <NavLink className="inline-block text-sm mb-2 text-blue-500 hover:underline" to={`/prices/`}>
+            <NavLink className="inline-block text-sm mb-2 text-blue-500 hover:underline" to={`/commodities/`}>
                &larr; Return to all commodities
             </NavLink>
             <header className="p-4 border border-stone-200 rounded">

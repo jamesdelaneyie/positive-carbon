@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const SearchBar = () => {
 
-  const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const handleChange = event => {
         setSearchTerm(event.target.value);
@@ -15,9 +15,8 @@ const SearchBar = () => {
     };
 
     const searchForCommodity = (searchTerm) => {
-        fetch(`/commodities/${searchTerm}`).then(res => res.json()).then(data => {
+        fetch(`/commodities/search/${searchTerm}`).then(res => res.json()).then(data => {
             setSearchResults(data);
-            console.log(data)
             if(data.length === 0) {
                 setSearchResults(null);
             }
@@ -32,6 +31,17 @@ const SearchBar = () => {
             placeholder="Search Commodities"
             value={searchTerm}
             onChange={handleChange}
+            onBlur={() => {
+              setTimeout(() => {
+                setSearchResults([]);
+                setSearchTerm("");
+              }, 100);
+            }}
+            onFocus={() => {
+                if(searchTerm.length > 2) {
+                    searchForCommodity(searchTerm);
+                }
+            }}
         />
           <svg
             className="text-gray-300 h-4 w-4 fill-current absolute right-4 top-3"
@@ -52,7 +62,7 @@ const SearchBar = () => {
           </svg>
         <ul className="absolute w-full top-11">
           {searchResults ? searchResults.map((commodity, index) => (
-            <NavLink key={index} className="block p-2 border border-stone-200 rounded mb-2 bg-white hover:underline" to={`/prices/${commodity.symbol}/`}>
+            <NavLink key={index} className="block p-2 border border-stone-200 rounded mb-2 bg-white hover:underline" to={`/commodities/${commodity.symbol}/`}>
                 {commodity.name} ({commodity.symbol})
             </NavLink>
           )) : <li>No results found</li>}

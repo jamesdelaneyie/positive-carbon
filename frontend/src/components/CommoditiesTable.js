@@ -23,7 +23,7 @@ const CommoditiesTable = () => {
                 {commodities ? commodities.map((commodity, index) => (
                 <li className="p-4 border border-stone-200 rounded mb-2" key={index}>
 
-                    <NavLink className="hover:underline" to={`/prices/${commodity.symbol}/`}>
+                    <NavLink className="hover:underline" to={`/commodities/${commodity.symbol}/`}>
                         {commodity.name} ({commodity.symbol})
                     </NavLink> <br/>
 

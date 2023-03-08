@@ -29,9 +29,9 @@ function App() {
 
           <Route path="/" element={<Dashboard />} />
           
-          <Route path="/prices" element={<CommoditiesTable />} />
+          <Route path="/commodities" element={<CommoditiesTable />} />
 
-          <Route path="/prices/:symbol" element={<SingleCommodityTable />} />
+          <Route path="/commodities/:symbol" element={<SingleCommodityTable />} />
 
           <Route path="/users" element={<UsersTable />} />
 

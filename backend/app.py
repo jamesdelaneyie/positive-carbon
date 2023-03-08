@@ -16,13 +16,13 @@ def index():
     commodities = [commodity.to_dict() for commodity in commodities]
     return jsonify(commodities)
 
-@app.route('/prices')
+@app.route('/commodities')
 def prices():
     commodity_prices = CommodityPrice.query.all()
     commodity_prices = [commodity_prices.to_dict() for commodity_prices in commodity_prices]
     return jsonify(commodity_prices)
 
-@app.route('/prices/<commodity_symbol>')
+@app.route('/commodities/<commodity_symbol>')
 def price(commodity_symbol):
     # get the id for the commodity symbol
     commodity_id = Commodity.query.filter_by(symbol=commodity_symbol).first().id
@@ -38,7 +38,7 @@ def users():
     users = [users.to_dict() for users in users]
     return jsonify(users)
 
-@app.route('/commodities/<search_term>')
+@app.route('/commodities/search/<search_term>')
 def commodities(search_term):
     commodities = Commodity.query.filter(Commodity.name.like(f'%{search_term}%')).all()
     commodities = [commodity.to_dict() for commodity in commodities]
