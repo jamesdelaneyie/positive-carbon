@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+// import SearchBar from './components/SearchBar'
+import CommoditiesTable from './components/CommoditiesTable'
+import SingleCommodityTable from './components/singleCommodityTable'
+import UsersTable from './components/UsersTable';
+import Dashboard from './components/Dashboard';
+import Nav from './components/Nav';
+import './output.css';
+
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+
+      
+
+      <Router>
+
+        <Nav/>
+
+        <Routes>
+
+          <Route path="/" element={<Dashboard />} />
+          
+          <Route path="/prices" element={<CommoditiesTable />} />
+
+          <Route path="/prices/:symbol" element={<SingleCommodityTable />} />
+
+          <Route path="/users" element={<UsersTable />} />
+
+        </Routes>
+
+      </Router>
+      
+    </main>
   );
 }
 
