@@ -5,6 +5,7 @@ import SingleCommodityTable from './components/singleCommodityTable'
 import UsersTable from './components/UsersTable';
 import Dashboard from './components/Dashboard';
 import Nav from './components/Nav';
+import Footer from './components/Footer';
 import './output.css';
 
 
@@ -17,9 +18,7 @@ import {
 function App() {
 
   return (
-    <main>
-
-      
+    <main className="flex flex-col min-h-screen justify-between bg-white">
 
       <Router>
 
@@ -35,7 +34,11 @@ function App() {
 
           <Route path="/users" element={<UsersTable />} />
 
+          <Route path="/user/:user_id" element={<CommoditiesTable />} />
+
         </Routes>
+
+        <Footer/>
 
       </Router>
       

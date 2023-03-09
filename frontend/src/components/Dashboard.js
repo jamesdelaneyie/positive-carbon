@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Dashboard = () => {
 
     return (
-        <article className="p-4 w-2/6">
+        <article className="p-4 w-2/6  mb-auto h-10">
 
             <h1 className="text-2xl">Dashboard</h1>
 
