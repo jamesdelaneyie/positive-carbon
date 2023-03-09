@@ -52,7 +52,7 @@ const SingleCommodityTable = () => {
     }, [symbol]);
 
       return (
-        <article className="mb-auto h-10 p-4 w-2/6">
+        <article className="mb-auto h-10 p-4 sm:w-full md:w-3/6 lg:w-2/6">
             <NavLink className="inline-block text-sm mb-2 text-blue-500 hover:underline" to={`/commodities/`}>
                &larr; Return to all commodities
             </NavLink>
@@ -60,7 +60,7 @@ const SingleCommodityTable = () => {
                 <div className="relative p-4">
                     <p className="text-stone-500 text-sm">{latestCommodityDateTime.current.date}</p>
                     <p className="font-bold">{commodityName.current} <span className="font-normal">({symbol})</span></p>
-                    <h2 className="tabular-numbers text-4xl font-bold inline mr-3">{latestCommodityPrice.current}</h2>
+                    <h2 className="tabular-nums text-4xl font-bold inline mr-3">{latestCommodityPrice.current}</h2>
                     {priceChange.current !== 0 ? (
                         <p className={priceChange.current > 0 ? "inline text-green-500" : "inline text-red-500"}>
                             <span className="text-xs relative" style={{top: "-1px"}}>{priceChange.current > 0 ? "▲" : "▼"}</span> {priceChange.current} ({priceChangePercentage.current}%)
@@ -92,7 +92,7 @@ const SingleCommodityTable = () => {
                 <h3 className="font-bold mb-3 text-sm">{commodityName.current} Historical Data</h3>
                 <ul>
                     {commodityPrices ? commodityPrices.map((commodity, index) => (
-                    <li key={index} className="tabular-numbers flex font-light text-sm">
+                    <li key={index} className="tabular-nums flex font-light text-sm">
                         <div class="flex-1">{commodity.time}</div>
                         <div class="flex-1 text-right">{commodity.price}</div>
                     </li>

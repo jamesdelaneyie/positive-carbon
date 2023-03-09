@@ -27,7 +27,7 @@ const CommoditiesTable = () => {
     }, [user_id]);
 
       return (
-        <article className="p-4 w-2/6 mb-auto">
+        <article className="p-4 sm:w-full md:w-3/6 lg:w-2/6 mb-auto">
             <NavLink to={`/`} className="inline-block text-sm mb-2 text-blue-500 hover:underline">
                 &larr; Return to Home
             </NavLink>

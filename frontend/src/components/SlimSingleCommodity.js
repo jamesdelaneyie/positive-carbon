@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 const SlimSingleCommodity = ({ commodity }) => {
     return (
-        <div className="p-4 border border-stone-200 rounded mb-2">
+        <div className="p-4 bg-white border border-stone-200 rounded mb-2">
             <div className="flex">
                 <div className="w-1/2">
                     <NavLink className="hover:underline" to={`/commodities/${commodity.symbol}/`}>
