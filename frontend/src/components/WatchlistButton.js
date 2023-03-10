@@ -50,7 +50,7 @@ const WatchlistButton = ({ symbol }) => {
     useEffect(() => {
         fetch('/user/1').then(res => res.json()).then(data => {
             console.log(data);
-            if(data['watchlist'].some(item => item.symbol === symbol)) {
+            if(data['commodities'].some(item => item.symbol === symbol)) {
                 setWatchlistButton(true);
             }
         });

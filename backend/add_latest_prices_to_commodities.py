@@ -11,6 +11,7 @@ base_currency = 'EUR'
 endpoint = 'latest'
 symbols = 'ALU,COFFEE,BRENTOIL,CANO,LCO,COCOA,XCU,CORN,COTTON,CPO,ETHANOL,GFU22,XAU,HOU22,IRD,LHOG,LCAT,LGOU22,LUMBER,NG,COAL,NI,OAT,XPD,XPT,POTATOES,XRX22,RICE,XRP2,ROBUSTA,RUBBER,RUTH,XAG,SOYBEAN,SUGAR,TIN,UK-EL,UK-NG,ZWH23,WTIOIL,ZNC'
 access_key = 'knxbsx6g27duqwd30w8tna7lbj59z8r83rdjesfn37p31cdqe799tum72qsd'
+access_key_2 = 'a5zd0kdh2inweg1y2812m0qiasmdy0tb2ejthwssi20f95g1sclel2g4qjin'
 
 api_url = 'https://commodities-api.com/api/'+endpoint+'?access_key='+access_key+'&base='+base_currency+'&symbols='+symbols
 

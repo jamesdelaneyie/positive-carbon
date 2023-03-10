@@ -1,6 +1,7 @@
 from models import db, Commodity
 from app import app
 
+
 # Got to add the app context to the db
 app.app_context().push()
 

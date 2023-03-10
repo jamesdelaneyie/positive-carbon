@@ -10,11 +10,6 @@ user_watchlist = UserWatchlist(user_id=1, commodity_id=1)
 db.session.add(user_watchlist)
 db.session.commit()
 
-
-
-
-
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__, instance_relative_config=True)

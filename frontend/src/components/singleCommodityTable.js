@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
 import WatchlistButton from './WatchlistButton';
+import LineChart from './LineChart';
 
 
 const SingleCommodityTable = () => {
@@ -52,7 +53,7 @@ const SingleCommodityTable = () => {
     }, [symbol]);
 
       return (
-        <article className="mb-auto h-10 p-4 sm:w-full md:w-3/6 lg:w-2/6">
+        <article className="mb-auto p-4 sm:w-full md:w-3/6 lg:w-2/6">
             <NavLink className="inline-block text-sm mb-2 text-blue-500 hover:underline" to={`/commodities/`}>
                &larr; Return to all commodities
             </NavLink>
@@ -88,13 +89,17 @@ const SingleCommodityTable = () => {
                 
                 
             </header>
+            
+
+            {commodityPrices && <LineChart data={commodityPrices} />}
+            
             <main className="p-4 border border-stone-200 rounded">
                 <h3 className="font-bold mb-3 text-sm">{commodityName.current} Historical Data</h3>
                 <ul>
                     {commodityPrices ? commodityPrices.map((commodity, index) => (
                     <li key={index} className="tabular-nums flex font-light text-sm">
                         <div class="flex-1">{commodity.time}</div>
-                        <div class="flex-1 text-right">{commodity.price}</div>
+                        <div class="flex-1 text-right">{Number(commodity.price).toFixed(2)}</div>
                     </li>
                     )) : <p>Loading...</p>}
                 </ul>

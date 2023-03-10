@@ -4,10 +4,18 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from models import db, Commodity, CommodityPrice, User, UserWatchlist
 
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                               unset_jwt_cookies, jwt_required, JWTManager
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
+
+app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
+jwt = JWTManager(app)
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
@@ -32,6 +40,64 @@ admin.add_view(UserWatchlistView(UserWatchlist, db.session))
 
 
 db.init_app(app)
+
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token 
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
+
+@app.route('/token', methods=["POST"])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+    if not email:
+        return jsonify({"msg": "Email is required"}), 400
+    if not password:
+        return jsonify({"msg": "Password is required"}), 400
+    
+    user = User.query.filter_by(email=email).first()
+    # if user is None or not user.check_password(password):
+    if user is None:
+        return jsonify({"msg": "Bad email or password"}), 401
+    
+    # Check the password
+    if not user.check_password(password):
+        return jsonify({"msg": "Bad email or password"}), 401
+    
+
+    access_token = create_access_token(identity=email)
+    response = {"access_token":access_token}
+    return response
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+@app.route('/profile')
+@jwt_required()
+def my_profile():
+    response_body = {
+        "name": "Nagato",
+        "about" :"Hello! I'm a full stack developer that loves python and javascript"
+    }
+
+    return response_body
 
 @app.route('/index')
 def index():
@@ -80,7 +146,7 @@ def watchlist(user_id):
     commodities = UserWatchlist.query.filter_by(user_id=user_id).all()
     commodities = [commodity.to_dict() for commodity in commodities]
 
-    return jsonify({"watchlist": commodities})
+    return jsonify({"user": user.to_dict(), "commodities": commodities})
 
 
 @app.route('/user/<user_id>/add', methods=['POST'])

@@ -39,9 +39,9 @@ class Commodity(BaseModel):
     @property
     def price(self):
         if self.commodity_price:
-            if(self.commodity_price[0].price):
+            if(self.commodity_price[-1].price):
                 # return the price to two decimal places with a trailing zero if needed
-                return f'{self.commodity_price[0].price:.2f}'
+                return f'{self.commodity_price[-1].price:.2f}'
             else:
                 return 0
         else:
@@ -64,6 +64,22 @@ class Commodity(BaseModel):
         else:
             return 'same'
 
+    # a function that returns the percentage change in price
+    @property
+    def price_change_percentage(self):
+        if self.commodity_price:
+            if len(self.commodity_price) > 1:
+                # round the prices to two decimal places
+                if round(self.commodity_price[-1].price, 2) > round(self.commodity_price[-2].price, 2):
+                    return round(((self.commodity_price[-1].price - self.commodity_price[-2].price) / self.commodity_price[-2].price) * 100, 2)
+                elif round(self.commodity_price[-1].price, 2) < round(self.commodity_price[-2].price, 2):
+                    return round(((self.commodity_price[-2].price - self.commodity_price[-1].price) / self.commodity_price[-2].price) * 100, 2)
+                else:
+                    return 0
+            else:
+                return 0
+        else:
+            return 0
         
     def __repr__(self):
         return f'{self.name}'
@@ -76,7 +92,7 @@ class Commodity(BaseModel):
             'description': self.description,
             'price': self.price,
             'price_change': self.price_change,
-            # 'price_change_percentage': self.price_change_percentage,
+            'price_change_percentage': self.price_change_percentage,
             'currency': 'EUR'
         }
 
@@ -119,6 +135,7 @@ class User(BaseModel):
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
+    #phone_number = db.Column(db.String(100), nullable=False)
 
     def __init__(self, username, password, email):
         self.username = username

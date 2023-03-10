@@ -6,6 +6,11 @@ import UsersTable from './components/UsersTable';
 import Dashboard from './components/Dashboard';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+import userToken from './components/userToken'
+import Login from './components/Login'
+import Profile from './components/Profile'
+import Logout from './components/Logout'
+
 import './output.css';
 
 
@@ -17,26 +22,37 @@ import {
 
 function App() {
 
+  const { token, removeToken, setToken } = userToken();
+
   return (
     <main className="flex flex-col min-h-screen justify-between bg-white">
-
+      
       <Router>
 
-        <Nav/>
+        <Nav removeToken={removeToken} token={token} />
 
-        <Routes>
+        <div className="flex justify-center">
 
-          <Route path="/" element={<Dashboard />} />
-          
-          <Route path="/commodities" element={<CommoditiesTable />} />
+          <Routes>
 
-          <Route path="/commodities/:symbol" element={<SingleCommodityTable />} />
+              <Route path="/" element={<Dashboard />} />
+              
+              <Route path="/commodities" element={<CommoditiesTable />} />
 
-          <Route path="/users" element={<UsersTable />} />
+              <Route path="/commodities/:symbol" element={<SingleCommodityTable />} />
 
-          <Route path="/user/:user_id" element={<CommoditiesTable />} />
+              <Route path="/users" element={<UsersTable />} />
 
-        </Routes>
+              <Route path="/user/:user_id" element={token ? <CommoditiesTable /> : <Login setToken={setToken} />} />
+
+              {/* if logged in with token, show profile page */}
+              <Route path="/profile" element={token ? <Profile /> : <Login setToken={setToken} />} />
+
+              <Route path="/login" element={<Login setToken={setToken} />} />
+
+          </Routes>
+
+        </div>
 
         <Footer/>
 
