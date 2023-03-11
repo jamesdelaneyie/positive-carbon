@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-
+from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 class BaseModel(db.Model):
@@ -40,8 +40,7 @@ class Commodity(BaseModel):
     def price(self):
         if self.commodity_price:
             if(self.commodity_price[-1].price):
-                # return the price to two decimal places with a trailing zero if needed
-                return f'{self.commodity_price[-1].price:.2f}'
+                return f'{self.commodity_price[-1].price:,.2f}'
             else:
                 return 0
         else:
@@ -104,22 +103,54 @@ class CommodityPrice(BaseModel):
 
     __tablename__ = 'commodity_price'
 
+    # Foreign key to Commodity model
     commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'), nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    # Currency. All prices are in EUR
     currency = db.Column(db.String(100), nullable=False)
-
+    # Commodity relationship
     commodity = db.relationship('Commodity', backref=db.backref('commodity_price', lazy=True))
 
+    # Price of the commodity
+    price = db.Column(db.Float, nullable=False)
+
+    # Open, high, low, close, volume of the commodity
+    #open = db.Column(db.Float, nullable=True)
+    #high = db.Column(db.Float, nullable=True)
+    #low = db.Column(db.Float, nullable=True)
+    #close = db.Column(db.Float, nullable=True)
+    #volume = db.Column(db.Float, nullable=True)
+
+    # created_at comes from the BaseModel
+    # populated at the time of creation with either the current datetime (live) or date from the API (historical)
+    # date_created = db.Column(db.DateTime, nullable=False)
+
+    # add a function that runs after the model is created
+    def __init__(self, **kwargs):
+        super(CommodityPrice, self).__init__(**kwargs)
+        # if the price is not set, set it to 0
+        price_alerts = PriceAlert.query.filter_by(commodity_id=self.commodity_id).all()
+        # if there are any price alerts
+        if price_alerts:
+            # loop through each price alert
+            for price_alert in price_alerts:
+                # check if the price has crossed the alert price
+                if self.price < price_alert.price:
+                    print('Price Alert Drop')
+                elif self.price > price_alert.price:
+                    print('Price Alert Increase')
+    
     def __repr__(self):
         return f'{self.price}'
-
 
     def to_dict(self):
         return {
             'commodity_id': self.commodity_id,
-            'commodity_name': self.commodity.name,
-            'commodity_symbol': self.commodity.symbol,
-            'price': f'{self.price:.5f}',
+            'price': f'{self.price:,.2f}',
+            #'open': f'{self.open:.2f}',
+            #'high': f'{self.high:.2f}',
+            #'low': f'{self.low:.2f}',
+            #'close': f'{self.close:.2f}',
+            #'volume': f'{self.volume:.2f}',
             'date_created': self.date_created,
             'time': self.date_created.strftime('%H:%M:%S')
         }
@@ -137,15 +168,24 @@ class User(BaseModel):
     email = db.Column(db.String(100), nullable=False)
     #phone_number = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, username, password, email):
+    # check password against the hashed password
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+    
+    # hash the password
+    def set_password(self, password):
+        hashed_password = generate_password_hash(password)
+        self.password = hashed_password
+
+
+    def __init__(self, username, email, password):
         self.username = username
-        self.password = password
         self.email = email
+        self.set_password(password)
 
     def __repr__(self):
         return f'{self.username}'
     
-
     def to_dict(self):
         return {
             'id': self.id,
@@ -175,4 +215,27 @@ class UserWatchlist(BaseModel):
         }
 
 
+class PriceAlert(BaseModel):
+    """
+    PriceAlert model
+    """
 
+    __tablename__ = 'commodity_price_alert'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+    user = db.relationship('User', backref=db.backref('commodity_price_alert', lazy=True))
+    commodity = db.relationship('Commodity', backref=db.backref('commodity_price_alert', lazy=True))
+
+    def __repr__(self):
+        return f'{self.price}'
+
+    def to_dict(self):
+        return {
+            'commodity_id': self.commodity_id,
+            'price': f'{self.price:.5f}',
+            'date_created': self.date_created,
+            'time': self.date_created.strftime('%H:%M:%S')
+        }

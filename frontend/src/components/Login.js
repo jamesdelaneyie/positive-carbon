@@ -59,10 +59,12 @@ function Login(props) {
                   type="password"
                   text={loginForm.password} 
                   name="password" 
+                  autoComplete="on"
                   placeholder="Password" 
                   value={loginForm.password} />
 
           <button className="text-white py-2 px-4 rounded mr-3 bg-blue-600 hover:bg-blue-700" onClick={logMeIn}>Submit</button>
+          <a href="/register" className="text-stone-500 hover:underline text-sm">Register</a>
         </form>
         </div>
       </article>

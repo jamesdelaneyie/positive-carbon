@@ -11,7 +11,7 @@ const UsersTable = () => {
         });
     }, []);
 
-      return (
+    return (
       <ul>
         {/* output a list of Users after checking if the data is loaded */}
         {users ? users.map((user, index) => (

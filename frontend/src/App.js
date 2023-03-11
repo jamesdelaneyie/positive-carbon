@@ -1,7 +1,6 @@
 import React from 'react';
-// import SearchBar from './components/SearchBar'
 import CommoditiesTable from './components/CommoditiesTable'
-import SingleCommodityTable from './components/singleCommodityTable'
+import SingleCommodityTable from './components/SingleCommodityTable'
 import UsersTable from './components/UsersTable';
 import Dashboard from './components/Dashboard';
 import Nav from './components/Nav';
@@ -9,7 +8,8 @@ import Footer from './components/Footer';
 import userToken from './components/userToken'
 import Login from './components/Login'
 import Profile from './components/Profile'
-import Logout from './components/Logout'
+import Register from './components/Register'
+import Ticker from './components/Ticker'
 
 import './output.css';
 
@@ -29,7 +29,11 @@ function App() {
       
       <Router>
 
+        <div>
         <Nav removeToken={removeToken} token={token} />
+
+        <Ticker />
+        </div>
 
         <div className="flex justify-center">
 
@@ -39,7 +43,7 @@ function App() {
               
               <Route path="/commodities" element={<CommoditiesTable />} />
 
-              <Route path="/commodities/:symbol" element={<SingleCommodityTable />} />
+              <Route path="/commodities/:symbol" element={<SingleCommodityTable token={token} />} />
 
               <Route path="/users" element={<UsersTable />} />
 
@@ -49,6 +53,8 @@ function App() {
               <Route path="/profile" element={token ? <Profile /> : <Login setToken={setToken} />} />
 
               <Route path="/login" element={<Login setToken={setToken} />} />
+
+              <Route path="/register" element={<Register />} />
 
           </Routes>
 

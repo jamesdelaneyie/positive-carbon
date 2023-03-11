@@ -13,7 +13,7 @@ symbols = 'ALU,COFFEE,BRENTOIL,CANO,LCO,COCOA,XCU,CORN,COTTON,CPO,ETHANOL,GFU22,
 access_key = 'knxbsx6g27duqwd30w8tna7lbj59z8r83rdjesfn37p31cdqe799tum72qsd'
 access_key_2 = 'a5zd0kdh2inweg1y2812m0qiasmdy0tb2ejthwssi20f95g1sclel2g4qjin'
 
-api_url = 'https://commodities-api.com/api/'+endpoint+'?access_key='+access_key+'&base='+base_currency+'&symbols='+symbols
+api_url = 'https://commodities-api.com/api/'+endpoint+'?access_key='+access_key_2+'&base='+base_currency+'&symbols='+symbols
 
 # Get the list of commodities from the API
 response = requests.get(api_url)

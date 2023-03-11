@@ -1,10 +1,21 @@
 import { NavLink } from 'react-router-dom';
+import { getPastelColor } from './getPastelColor.js';
 
 const SlimSingleCommodity = ({ commodity }) => {
+
+
+    const generatedColor = getPastelColor(commodity.name);
+
+
     return (
         <div className="p-4 bg-white border border-stone-200 rounded mb-2">
             <div className="flex">
-                <div className="w-1/2">
+                <div>
+                    <span style={{color: generatedColor.text, backgroundColor: generatedColor.color, borderColor: generatedColor.borderColor }} className="bg-slate-100 border rounded-full w-10 h-10 inline-block relative top-1">
+                        <span className="text-sm text-opacity-70 font-bold transform-center">{commodity.name.substring(0, 2)}</span>
+                    </span>
+                </div>
+                <div className="w-1/2 ml-4">
                     <NavLink className="hover:underline" to={`/commodities/${commodity.symbol}/`}>
                         <span className="font-bold">{commodity.name}</span>
                     </NavLink><br/>

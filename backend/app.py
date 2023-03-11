@@ -1,11 +1,11 @@
 import os
 from flask import Flask, request, jsonify
 from flask_admin import Admin
+from flask_migrate import Migrate
 from flask_admin.contrib.sqla import ModelView
-from models import db, Commodity, CommodityPrice, User, UserWatchlist
+from models import db, Commodity, CommodityPrice, User, UserWatchlist, PriceAlert
 
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
-                               unset_jwt_cookies, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -37,10 +37,10 @@ class UserWatchlistView(ModelView):
     column_list = ('id', 'user', 'commodity')
 
 admin.add_view(UserWatchlistView(UserWatchlist, db.session))
-
+admin.add_view(ModelView(PriceAlert, db.session))
 
 db.init_app(app)
-
+migrate = Migrate(app, db)
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -70,13 +70,12 @@ def create_token():
         return jsonify({"msg": "Password is required"}), 400
     
     user = User.query.filter_by(email=email).first()
-    # if user is None or not user.check_password(password):
     if user is None:
-        return jsonify({"msg": "Bad email or password"}), 401
+        return jsonify({"msg": "Bad email"}), 401
     
     # Check the password
     if not user.check_password(password):
-        return jsonify({"msg": "Bad email or password"}), 401
+        return jsonify({"msg": "Bad password"}), 401
     
 
     access_token = create_access_token(identity=email)
@@ -88,6 +87,30 @@ def logout():
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response
+
+
+@app.route('/register', methods=['POST'])
+def signup():
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
+    username = request.json.get('username', None)
+
+    if not email:
+        return jsonify({"msg": "Email is required"}), 400
+    if not password:
+        return jsonify({"msg": "Password is required"}), 400
+    if not username:
+        return jsonify({"msg": "Name is required"}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if user:
+        return jsonify({"msg": "Email already exists"}), 400
+
+    user = User(email=email, username=username, password=password)
+    user.set_password(password)
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({"msg": "User created successfully"}), 201
 
 @app.route('/profile')
 @jwt_required()
@@ -213,6 +236,45 @@ def remove_from_watchlist(user_id):
     db.session.commit()
 
     return jsonify({"message": "success"})
+
+
+@app.route('/set-price-alert/', methods=['POST'])
+def set_price_alert():
+    # get the symbol from the body of the request
+    symbol = request.json.get('symbol')
+    user_id = 1#request.json.get('user_id')
+    
+    # get the user for the user_id
+    user = User.query.filter_by(id=user_id).first()
+
+    # check if the user exists
+    if not user:
+        return jsonify({"message": f"user {user_id} not found"}), 404
+
+    # get the commodity for the symbol
+    commodity = Commodity.query.filter_by(symbol=symbol).first()
+
+    # check if the commodity exists
+    if not commodity:
+        return jsonify({"message": f"commodity {symbol} not found"}), 404
+
+    # get the price alert for the user and commodity
+    price_alert = PriceAlert.query.filter_by(user_id=user_id, commodity_id=commodity.id).first()
+
+    # check if the user already has a price alert for the commodity
+    if price_alert:
+        return jsonify({"message": f"user {user_id} already has a price alert for {symbol}"}), 400
+
+    # get the price from the body of the request
+    price = request.json.get('price')
+
+    # add the price alert to the database
+    price_alert = PriceAlert(user_id=user_id, commodity_id=commodity.id, price=price)
+    db.session.add(price_alert)
+    db.session.commit()
+
+    return jsonify({"message": "success"})
+
 
 if __name__ == '__main__':
     app.run()
