@@ -13,7 +13,7 @@ const Ticker = () => {
     }, []);
 
     return (
-        <div className="ticker-marquee border-b-1">
+        <div className="bg-white ticker-marquee border-b-1">
             <ul className="ticker-marquee__content relative">
                 <li className="absolute text-xs bg-stone-100 text-stone-500 font-medium p-1 pt-2 hidden">Latest Update: Today</li>
                 {commodities.map((commodity, index) =>

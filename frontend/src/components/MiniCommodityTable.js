@@ -25,12 +25,20 @@ const MiniCommodityTable = (props) => {
                             <p className="group-hover:underline font-medium whitespace-nowrap">{commodity.name} </p>
                             <h2 className="tabular-nums text-3xl font-bold inline mr-1">{commodity.price}</h2>
                             <span className="whitespace-nowrap">
-                                <span className={commodity.price_change === 'up' ? 'inline text-green-500 align-text-bottom mr-1 text-xxs' : 'inline text-red-500 align-text-bottom mr-1 text-xxs'}>
-                                    {commodity.price_change === 'up' ? ' ▲' : ' ▼'}
-                                </span>
-                                <span className={commodity.price_change === 'up' ? 'inline text-green-500 bg-white align-text-bottom text-xs' : 'inline text-red-500 align-text-bottom text-xs'}>
-                                    {commodity.price_change === 'up' ? '+' : '-'}{commodity.price_change_percentage}%
-                                </span>
+                                {commodity.price_change === 'same' ? (
+                                    <span className='text-gray-400 align-text-bottom font-black text-xxs mr-1'> &ndash; </span>
+                                ) : (
+                                    <span className={commodity.price_change === 'up' ? 'text-green-500 align-text-bottom mr-1 text-xxs' : 'text-red-500 align-text-bottom mr-1 text-xxs'}>
+                                        {commodity.price_change === 'up' ? ' ▲' : ' ▼'}
+                                    </span>
+                                )} 
+                                {commodity.price_change === 'same' ? (
+                                    <span className='text-gray-400 align-text-bottom font-black text-xxs mr-1'></span>
+                                ) : (
+                                    <span className={commodity.price_change === 'up' ? 'inline text-green-500 bg-white align-text-bottom text-xs' : 'inline text-red-500 align-text-bottom text-xs'}>
+                                        {commodity.price_change === 'up' ? '+' : '-'}{commodity.price_change_percentage}%
+                                    </span>
+                                )}
                             </span>
                             
                         </div>

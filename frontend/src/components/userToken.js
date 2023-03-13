@@ -7,7 +7,13 @@ function useToken() {
     return userToken && userToken
   }
 
+  function getUserID() {
+    const userID = localStorage.getItem('user_id');
+    return userID && userID
+  }
+
   const [token, setToken] = useState(getToken());
+  const [user_id, setUserID] = useState(getUserID());
 
   function saveToken(userToken) {
     localStorage.setItem('token', userToken);
@@ -19,10 +25,23 @@ function useToken() {
     setToken(null);
   }
 
+  function saveUserID(userID) {
+    localStorage.setItem('user_id', userID);
+    setUserID(userID);
+  }
+
+  function removeUserID() {
+    localStorage.removeItem("user_id");
+    setUserID(null);
+  }
+
   return {
     setToken: saveToken,
     token,
-    removeToken
+    removeToken,
+    setUserID: saveUserID,
+    user_id,
+    removeUserID
   }
 
 }

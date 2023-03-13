@@ -145,7 +145,7 @@ class CommodityPrice(BaseModel):
     def to_dict(self):
         return {
             'commodity_id': self.commodity_id,
-            'price': f'{self.price:,.2f}',
+            'price': f'{self.price:.2f}',
             #'open': f'{self.open:.2f}',
             #'high': f'{self.high:.2f}',
             #'low': f'{self.low:.2f}',
@@ -184,7 +184,7 @@ class User(BaseModel):
         self.set_password(password)
 
     def __repr__(self):
-        return f'{self.username}'
+        return f'{self.username} - {self.email}'
     
     def to_dict(self):
         return {

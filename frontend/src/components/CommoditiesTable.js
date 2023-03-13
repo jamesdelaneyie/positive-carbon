@@ -14,7 +14,6 @@ const CommoditiesTable = () => {
     useEffect(() => {
         if(user_id) {
             fetch('/user/' + user_id + '').then(res => res.json()).then(data => {
-                //console.log(data)
                 setCommodities(data['commodities']);
                 setPageTitle('My Watchlist');
                 setLoadingEmptyMessage('Your watchlist is empty');
@@ -27,16 +26,16 @@ const CommoditiesTable = () => {
     }, [user_id]);
 
       return (
-        <article className="p-4 sm:w-full md:w-3/6 lg:w-2/6 mb-auto">
+        <article className="bg-white p-4 sm:w-full md:w-3/6 lg:w-2/6 mb-auto user-watchlist">
             <NavLink to={`/`} className="inline-block text-sm mb-2 text-blue-500 hover:underline">
                 &larr; Return to Home
             </NavLink>
             <h2 className="text-2xl mb-2">{pageTitle}</h2>
             <ul>
                 {/* output a list of commodities after checking if the data is loaded */}
-                {commodities ? commodities.map((commodity, index) => (
+                {commodities.length > 0 ? commodities.map((commodity, index) => (
                     <SlimSingleCommodity key={index} commodity={commodity} />
-                )) : <li>{loadingEmptyMessage}</li>}
+                )) : <li class="text-slate-500">{loadingEmptyMessage}</li>}
             </ul>
         </article>
     );

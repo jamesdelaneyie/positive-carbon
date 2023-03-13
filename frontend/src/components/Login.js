@@ -8,6 +8,9 @@ function Login(props) {
       password: ""
     })
 
+    const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+
     function logMeIn(event) {
       axios({
         method: "POST",
@@ -19,12 +22,15 @@ function Login(props) {
       })
       .then((response) => {
         props.setToken(response.data.access_token)
+        props.setUserID(response.data.user_id)
+        window.location.href('/watchlist')
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
-          console.log(error.response.status)
-          console.log(error.response.headers)
+          if(error.response.status === 400 || error.response.status === 401) {
+            setErrorMessage(error.response.data.msg)
+            setError(true)
           }
+        }
       })
 
       setloginForm(({
@@ -41,9 +47,10 @@ function Login(props) {
       )}
 
     return (
-      <article className="mb-auto p-6 sm:w-full md:w-2/6 lg:w-1/6 border rounded">
+      <article className="bg-white mb-auto p-6 sm:w-full md:w-2/6 lg:w-1/6 border rounded-md">
         <div>
           <h1 className='text-2xl font-bold mb-4'>Login</h1>
+          {error && <p className="bg-red-500 p-2 pl-4 rounded text-sm mb-3 text-white">{errorMessage}</p>}
           <form className="login">
             <input 
                   className="w-full border border-stone-200 rounded p-2 mb-2"

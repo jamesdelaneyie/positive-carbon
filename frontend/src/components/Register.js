@@ -10,6 +10,8 @@ function Register() {
     })
 
     const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
 
 
     function register(event) {
@@ -24,20 +26,25 @@ function Register() {
       })
       .then((response) => {
         if(response.status === 201) {
+            setError(false)
             setSuccess(true)   
         }
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
-          console.log(error.response.status)
-          console.log(error.response.headers)
+          if(error.response.status === 400) {
+            setErrorMessage(error.response.data.msg)
+            setError(true)
           }
+        }
       })
 
-      setRegisterForm(({
-        email: "",
-        username: "",
-        password: ""}))
+      setRegisterForm((
+        {
+          email: "",
+          username: "",
+          password: ""
+        }
+      ))
 
       event.preventDefault()
     }
@@ -49,11 +56,14 @@ function Register() {
       )}
 
     return (
-      <article className="mb-auto p-6 sm:w-full md:w-2/6 lg:w-1/6 border rounded">
+      <article className="bg-white mb-auto p-6 sm:w-full md:w-2/6 lg:w-1/4 border rounded-md">
         <div>
           <h1 className='text-2xl font-bold mb-4'>Register</h1>
-          {/* if success is true, show success message */}
-            {success && <p className="bg-green-500 p-2 pl-4 rounded text-white">Success!</p>}
+          
+            {success && <p className="bg-green-500 p-2 pl-4 rounded text-sm mb-3 text-white">Success!</p>}
+
+            {error && <p className="bg-red-500 p-2 pl-4 rounded text-sm mb-3 text-white">{errorMessage}</p>}
+
             {!success && <form className="login">
                 <input 
                     className="w-full border border-stone-200 rounded p-2 mb-2"
@@ -61,8 +71,16 @@ function Register() {
                     type="email"
                     text={registerForm.email} 
                     name="email" 
-                    placeholder="Email" 
+                    placeholder="Email Address" 
                     value={registerForm.email} />
+                <input 
+                    className="w-full border border-stone-200 rounded p-2 mb-2"
+                    onChange={handleChange} 
+                    type="phone"
+                    text={registerForm.phone} 
+                    name="phone" 
+                    placeholder="Phone Number" 
+                    value={registerForm.phone} />
                 <input 
                     className="w-full border border-stone-200 rounded p-2 mb-2"
                     onChange={handleChange} 

@@ -9,6 +9,7 @@ function Logout(props) {
     })
     .then((response) => {
        props.token()
+       console.log(response.data)
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -18,7 +19,7 @@ function Logout(props) {
     })}
 
     return(
-        <button onClick={logMeOut} className="text-white py-2 px-4 rounded mr-3 bg-blue-600 hover:bg-blue-700"> 
+        <button onClick={logMeOut} className="w-full text-right block text-blue-500 hover:bg-blue-500 hover:text-white no-underline px-4 py-2"> 
             Logout
         </button>
     )

@@ -4,6 +4,8 @@ import { getPastelColor } from './getPastelColor.js';
 
 const singleCommodityInfo = (props) => {
 
+    //console.log(props)
+
     const generatedColor = getPastelColor(props.commodityName);
 
     return (
@@ -32,9 +34,9 @@ const singleCommodityInfo = (props) => {
                     <span className="absolute bottom-5 right-4 text-stone-400 text-xs">Currency in <span className="font-bold">EUR</span></span>
                 </div>
                 
-                <WatchlistButton token={props.token} symbol={props.symbol} name={props.commodityName} price={props.latestCommodityPrice} />
+                <WatchlistButton token={props.token} user_id={props.user_id} symbol={props.symbol} name={props.commodityName} price={props.latestCommodityPrice} />
                 
-                <PriceAlertDialog price={props.latestCommodityPrice} symbol={props.symbol} name={props.commodityName} />
+                <PriceAlertDialog token={props.token} user_id={props.user_id} price={props.latestCommodityPrice} symbol={props.symbol} name={props.commodityName} />
 
             </div>
             <hr className="ml-4 mr-4"/>

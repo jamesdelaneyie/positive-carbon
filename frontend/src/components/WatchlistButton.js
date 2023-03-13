@@ -7,15 +7,19 @@ const WatchlistButton = (props) => {
 
     const symbol = props.symbol;
     const token = props.token;
+    const user_id = props.user_id;
+
+    //console.log(props)
 
     const addToWatchlist = (symbol) => {
 
         //if the user is not logged in then redirect to the login page
         if(!token) {
             window.location.href = "/login";
+            return
         }
         
-        fetch('/user/1/add', {
+        fetch('/user/'+user_id+'/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,7 +40,7 @@ const WatchlistButton = (props) => {
     };
 
     const removefromWatchlist = (symbol) => {
-        fetch('/user/1/remove', {
+        fetch('/user/'+user_id+'/remove', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,13 +61,13 @@ const WatchlistButton = (props) => {
     // get the users watchlist and check if the symbol is in it
     // then set the watchlist button to true
     useEffect(() => {
-        fetch('/user/1').then(res => res.json()).then(data => {
-            console.log(data);
+        fetch('/user/'+user_id+'').then(res => res.json()).then(data => {
+            //console.log(data);
             if(data['commodities'].some(item => item.symbol === symbol)) {
                 setWatchlistButton(true);
             }
         });
-    }, [symbol]);
+    }, [symbol, user_id]);
 
     return (
         <div>

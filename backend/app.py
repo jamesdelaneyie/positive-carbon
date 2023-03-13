@@ -71,15 +71,15 @@ def create_token():
     
     user = User.query.filter_by(email=email).first()
     if user is None:
-        return jsonify({"msg": "Bad email"}), 401
+        return jsonify({"msg": "Email not known"}), 401
     
     # Check the password
     if not user.check_password(password):
-        return jsonify({"msg": "Bad password"}), 401
+        return jsonify({"msg": "Incorrect Password"}), 401
     
 
     access_token = create_access_token(identity=email)
-    response = {"access_token":access_token}
+    response = {"user_id": user.id, "access_token":access_token}
     return response
 
 @app.route("/logout", methods=["POST"])
@@ -242,7 +242,9 @@ def remove_from_watchlist(user_id):
 def set_price_alert():
     # get the symbol from the body of the request
     symbol = request.json.get('symbol')
-    user_id = 1#request.json.get('user_id')
+    user_id = request.json.get('user')
+
+    print(symbol, user_id)
     
     # get the user for the user_id
     user = User.query.filter_by(id=user_id).first()

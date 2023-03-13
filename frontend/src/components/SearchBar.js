@@ -7,7 +7,7 @@ const SearchBar = () => {
     const [searchResults, setSearchResults] = useState([]);
     const handleChange = event => {
         setSearchTerm(event.target.value);
-        if(event.target.value.length > 2) {
+        if(event.target.value.length > 1) {
             searchForCommodity(event.target.value);
         } else {
             setSearchResults([]);
@@ -24,7 +24,7 @@ const SearchBar = () => {
     }
 
     return (
-      <div className="w-60 relative z-10">
+      <div style={{top: "-2px" }} className="relative w-60 relative z-10">
         <input
             className="w-full border border-stone-200 rounded p-2"
             type="text"
@@ -38,7 +38,7 @@ const SearchBar = () => {
               }, 100);
             }}
             onFocus={() => {
-                if(searchTerm.length > 2) {
+                if(searchTerm.length > 1) {
                     searchForCommodity(searchTerm);
                 }
             }}

@@ -1,10 +1,15 @@
 const LineChart = ({ data }) => {
 
-    console.log(data)
+    //console.log(data)
 
     //reverse the order of the array
     const chartData = data.slice()
     chartData.reverse();
+
+    //change all prices to numbers
+    chartData.forEach(d => {
+        d.price = Number(d.price);
+    });
 
     // get the max and min price from the data, the price is stored as a string so we need to convert it to a number
     const maxPrice = Math.max(...chartData.map(d => Number(d.price)));

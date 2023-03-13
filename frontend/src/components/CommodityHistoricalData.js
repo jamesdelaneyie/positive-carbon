@@ -4,8 +4,8 @@ const CommodityHistoricalData = (props) => {
     const commodityName = props.commodityName;
     
     return (
-        <main className="p-4 border border-stone-200 rounded">
-            <h3 className="font-bold mb-3 text-sm">{commodityName} Historical Data</h3>
+        <main className="p-4 border border-stone-200 rounded mb-4">
+            <h3 className="font-bold mb-3">{commodityName} Historical Data</h3>
             {/* A html table with the commodity prices, including date, price, open, high, low, volume, and change, styled in tailwind */}
             <table className="table-auto w-full tabular-nums font-light text-sm">
                 <thead>
@@ -22,7 +22,7 @@ const CommodityHistoricalData = (props) => {
                 <tbody>
                     {commodityPrices ? commodityPrices.map((commodity, index) => (
                     <tr key={index}>
-                        <td>{commodity.date_created}</td>
+                        <td>{ (new Date(commodity.date_created)).toLocaleDateString() }</td>
                         <td>{commodity.price}</td>
                         <td>{commodity.open}</td>
                         <td>{commodity.high}</td>

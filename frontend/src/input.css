@@ -97,3 +97,19 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {  
    opacity: 1;
 }
+
+.news-item p {
+    display: -webkit-box;
+    max-width: 100%;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-item:last-child {
+    margin-bottom: 0;
+}
+
+.user-watchlist {
+    min-height: calc(100vh - 155px)
+}
