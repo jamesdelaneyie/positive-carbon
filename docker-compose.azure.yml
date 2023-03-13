@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: pricepulse.azurecr.io/backend:v1
+    ports:
+      - "5000:5000"
+    restart: always
+    environment:
+      - FLASK_ENV=production
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: pricepulse.azurecr.io/frontend:v1
+    ports:
+      - "80:80"
+    restart: always

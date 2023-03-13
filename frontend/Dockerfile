@@ -1,6 +1,6 @@
 # ==== CONFIGURE =====
 # Use a Node 16 base image
-FROM node:16-alpine as build
+FROM --platform=linux/amd64 node:16-alpine as build
 # Set the working directory to /app inside the container
 WORKDIR /app
 # Copy app files
@@ -19,7 +19,7 @@ EXPOSE 3000
 CMD [ "npx", "serve", "build" ]
 
 # Build step #2: build an nginx container
-FROM nginx:stable-alpine
+FROM --platform=linux/amd64 nginx:stable-alpine
 # Set working directory to nginx asset directory
 WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
