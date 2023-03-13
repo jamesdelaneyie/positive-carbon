@@ -40,7 +40,7 @@ const SingleCommodityTable = (props) => {
     };
 
     useEffect(() => {
-        fetch('/commodities/' + symbol + '').then(res => res.json()).then(data => {
+        fetch('/api/commodities/' + symbol + '').then(res => res.json()).then(data => {
             setCommodityPrices(data['prices']);
 
             commodityName.current = data['info'].name;

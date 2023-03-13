@@ -11,7 +11,7 @@ const MiniCommodityTable = (props) => {
     const [commodityPrices, setCommodityPrices] = useState(0);
 
     useEffect(() => {
-        fetch('/commodities/' + symbol + '').then(res => res.json()).then(data => {
+        fetch('/api/commodities/' + symbol + '').then(res => res.json()).then(data => {
             setCommodityPrices(data['prices']);
         });
     }, [symbol]);

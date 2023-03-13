@@ -19,7 +19,7 @@ const WatchlistButton = (props) => {
             return
         }
         
-        fetch('/user/'+user_id+'/add', {
+        fetch('/api/user/'+user_id+'/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const WatchlistButton = (props) => {
     };
 
     const removefromWatchlist = (symbol) => {
-        fetch('/user/'+user_id+'/remove', {
+        fetch('/api/user/'+user_id+'/remove', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ const WatchlistButton = (props) => {
     // get the users watchlist and check if the symbol is in it
     // then set the watchlist button to true
     useEffect(() => {
-        fetch('/user/'+user_id+'').then(res => res.json()).then(data => {
+        fetch('/api/user/'+user_id+'').then(res => res.json()).then(data => {
             //console.log(data);
             if(data['commodities'].some(item => item.symbol === symbol)) {
                 setWatchlistButton(true);

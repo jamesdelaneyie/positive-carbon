@@ -15,7 +15,7 @@ const SearchBar = () => {
     };
 
     const searchForCommodity = (searchTerm) => {
-        fetch(`/commodities/search/${searchTerm}`).then(res => res.json()).then(data => {
+        fetch(`/api/commodities/search/${searchTerm}`).then(res => res.json()).then(data => {
             setSearchResults(data);
             if(data.length === 0) {
                 setSearchResults(null);

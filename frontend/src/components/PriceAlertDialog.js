@@ -25,7 +25,7 @@ const PriceAlertDialog = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch('/set-price-alert/', {
+        fetch('/api/set-price-alert/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 # ==== CONFIGURE =====
 # Use a Node 16 base image
-FROM node:16-alpine 
+FROM node:16-alpine as build
 # Set the working directory to /app inside the container
 WORKDIR /app
 # Copy app files
@@ -17,3 +17,17 @@ ENV NODE_ENV production
 EXPOSE 3000
 # Start the app
 CMD [ "npx", "serve", "build" ]
+
+# Build step #2: build an nginx container
+FROM nginx:stable-alpine
+# Set working directory to nginx asset directory
+WORKDIR /usr/share/nginx/html
+# Remove default nginx static assets
+RUN rm -rf ./*
+# Copy static assets from builder stage
+COPY --from=build /app/build .
+COPY nginx.default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 3000
+# Containers run nginx with global directives and daemon off
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+

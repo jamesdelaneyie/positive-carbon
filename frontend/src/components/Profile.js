@@ -7,7 +7,7 @@ function Profile(props) {
   function getData() {
     axios({
       method: "GET",
-      url:"/user/1",
+      url:"/api/user/1",
       headers: {
         Authorization: 'Bearer ' + props.token
       }

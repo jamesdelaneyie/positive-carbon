@@ -59,7 +59,7 @@ def refresh_expiring_jwts(response):
         # Case where there is not a valid JWT. Just return the original respone
         return response
 
-@app.route('/token', methods=["POST"])
+@app.route('/api/token', methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
@@ -82,14 +82,14 @@ def create_token():
     response = {"user_id": user.id, "access_token":access_token}
     return response
 
-@app.route("/logout", methods=["POST"])
+@app.route("/api/logout", methods=["POST"])
 def logout():
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def signup():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
@@ -112,7 +112,7 @@ def signup():
     db.session.commit()
     return jsonify({"msg": "User created successfully"}), 201
 
-@app.route('/profile')
+@app.route('/api/profile')
 @jwt_required()
 def my_profile():
     response_body = {
@@ -122,19 +122,19 @@ def my_profile():
 
     return response_body
 
-@app.route('/index')
+@app.route('/api/index')
 def index():
     commodities = Commodity.query.all()
     commodities = [commodity.to_dict() for commodity in commodities]
     return jsonify(commodities)
 
-@app.route('/commodities')
+@app.route('/api/commodities')
 def prices():
     commodity_prices = CommodityPrice.query.all()
     commodity_prices = [commodity_prices.to_dict() for commodity_prices in commodity_prices]
     return jsonify(commodity_prices)
 
-@app.route('/commodities/<commodity_symbol>')
+@app.route('/api/commodities/<commodity_symbol>')
 def price(commodity_symbol):
     # get the id for the commodity symbol
     commodity_id = Commodity.query.filter_by(symbol=commodity_symbol).first().id
@@ -143,20 +143,20 @@ def price(commodity_symbol):
     single_commodity_prices = [single_commodity_prices.to_dict() for single_commodity_prices in single_commodity_prices]
     return jsonify({"info": commodity_info, "prices": single_commodity_prices})
 
-@app.route('/commodities/search/<search_term>')
+@app.route('/api/commodities/search/<search_term>')
 def commodities(search_term):
     commodities = Commodity.query.filter(Commodity.name.like(f'%{search_term}%')).all()
     commodities = [commodity.to_dict() for commodity in commodities]
     return jsonify(commodities)
 
-@app.route('/users')
+@app.route('/api/users')
 def users():
     users = User.query.all()
     users = [users.to_dict() for users in users]
     return jsonify(users)
 
 
-@app.route('/user/<user_id>') # add a route to get a user's watchlist
+@app.route('/api/user/<user_id>') # add a route to get a user's watchlist
 def watchlist(user_id):
     # get the user for the user_id
     user = User.query.filter_by(id=user_id).first()
@@ -172,7 +172,7 @@ def watchlist(user_id):
     return jsonify({"user": user.to_dict(), "commodities": commodities})
 
 
-@app.route('/user/<user_id>/add', methods=['POST'])
+@app.route('/api/user/<user_id>/add', methods=['POST'])
 def add_to_watchlist(user_id):
     # get the symbol from the body of the request
     symbol = request.json.get('symbol')
@@ -205,7 +205,7 @@ def add_to_watchlist(user_id):
 
     return jsonify({"message": "success"})
 
-@app.route('/user/<user_id>/remove', methods=['POST'])
+@app.route('/api/user/<user_id>/remove', methods=['POST'])
 def remove_from_watchlist(user_id):
     # get the symbol from the body of the request
     symbol = request.json.get('symbol')
@@ -238,7 +238,7 @@ def remove_from_watchlist(user_id):
     return jsonify({"message": "success"})
 
 
-@app.route('/set-price-alert/', methods=['POST'])
+@app.route('/api/set-price-alert/', methods=['POST'])
 def set_price_alert():
     # get the symbol from the body of the request
     symbol = request.json.get('symbol')

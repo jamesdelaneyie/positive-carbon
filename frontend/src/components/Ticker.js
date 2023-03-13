@@ -7,7 +7,7 @@ const Ticker = () => {
     const [commodities, setCommodities] = useState([]);
 
     useEffect(() => {
-        fetch('/index').then(res => res.json()).then(data => {
+        fetch('/api/index').then(res => res.json()).then(data => {
             setCommodities(data);
         });
     }, []);

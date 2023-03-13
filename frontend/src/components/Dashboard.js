@@ -7,7 +7,7 @@ const Dashboard = (props) => {
     const [commodities, setCommodities] = useState(0);
 
     useEffect(() => {
-        fetch('/index').then(res => res.json()).then(data => {
+        fetch('/api/index').then(res => res.json()).then(data => {
             setCommodities(data);
         });
     }, []);
@@ -19,7 +19,7 @@ const Dashboard = (props) => {
                 {/* Banner with welcome message */}
                 <div className="bg-white border-2 border-blue-300 rounded-md p-6 mb-4">
                     <h2 className="text-2xl font-bold mb-2">Welcome to PricePulse</h2>
-                    <p className="text-sm text-slate-500">This is a simple dashboard that displays the latest prices for a selection of commodities. <a href="/register" className="underline">Register</a> to start your watchlist and set price alerts.</p>
+                    <p className="text-sm text-slate-500">This is a simple dashboard that displays the latest prices for a selection of commodities. <NavLink to={`/register/`} className="underline">Register</NavLink> to start your watchlist and set price alerts.</p>
                 </div>
 
                 <h1 className="text-xl font-bold mb-4 block">Latest Prices</h1>

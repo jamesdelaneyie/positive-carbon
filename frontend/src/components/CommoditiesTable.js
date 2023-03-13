@@ -13,13 +13,13 @@ const CommoditiesTable = () => {
 
     useEffect(() => {
         if(user_id) {
-            fetch('/user/' + user_id + '').then(res => res.json()).then(data => {
+            fetch('/api/user/' + user_id + '').then(res => res.json()).then(data => {
                 setCommodities(data['commodities']);
                 setPageTitle('My Watchlist');
                 setLoadingEmptyMessage('Your watchlist is empty');
             });
         } else {
-            fetch('/index').then(res => res.json()).then(data => {
+            fetch('/api/index').then(res => res.json()).then(data => {
                 setCommodities(data);
             });
         }

@@ -17,7 +17,7 @@ function Register() {
     function register(event) {
       axios({
         method: "POST",
-        url:"/register",
+        url:"/api/register",
         data:{
           email: registerForm.email,
           username: registerForm.username,
