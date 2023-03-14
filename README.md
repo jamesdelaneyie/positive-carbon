@@ -7,10 +7,12 @@ This is a simple app that displays the price of commodities over time.
 - Frontend Client: React.js
 - Styles: Tailwind
 - Database: SQLite
-- Deployment: Docker
+- Deployment: Docker on Azure
 
-## Setup
+View at: http://967f8d1c01b8.ngrok.app
+Sample backend API view on Azure: https://pricepulseapi.azurewebsites.net/api/index
 
-## Deployment
+
+
 
 
