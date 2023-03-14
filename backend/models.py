@@ -114,12 +114,14 @@ class CommodityPrice(BaseModel):
     price = db.Column(db.Float, nullable=False)
 
     # Open, high, low, close, volume of the commodity
-    #open = db.Column(db.Float, nullable=True)
-    #high = db.Column(db.Float, nullable=True)
-    #low = db.Column(db.Float, nullable=True)
-    #close = db.Column(db.Float, nullable=True)
-    #volume = db.Column(db.Float, nullable=True)
-
+    # open = db.Column(db.Float, nullable=True)
+    high = db.Column(db.Float, nullable=True)
+    low = db.Column(db.Float, nullable=True)
+    close = db.Column(db.Float, nullable=True)
+    volume = db.Column(db.Float, nullable=True)
+    change = db.Column(db.Float, nullable=True)
+    change_percentage = db.Column(db.Float, nullable=True)
+    
     # created_at comes from the BaseModel
     # populated at the time of creation with either the current datetime (live) or date from the API (historical)
     # date_created = db.Column(db.DateTime, nullable=False)
