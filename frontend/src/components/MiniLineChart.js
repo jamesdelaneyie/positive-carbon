@@ -1,6 +1,10 @@
+import React, { useState, useEffect } from 'react';
+
 const LineChart = ({ data }) => {
 
     //console.log(data)
+
+    const [width, setWidth] = useState(120);
 
     //reverse the order of the array
     const chartData = data.slice()
@@ -16,7 +20,15 @@ const LineChart = ({ data }) => {
     const minPrice = Math.min(...chartData.map(d => Number(d.price)));
 
     const height = 40;
-    const width = 120;
+
+    const handleResize = () => {
+        setWidth(document.querySelector(".mini-chart").clientWidth - 40);
+    }
+    window.addEventListener('resize', handleResize);
+
+    useEffect(() => {
+    handleResize();
+    }, []);
 
     // create an array of points for the line
     const points = chartData.map((d, i) => {
@@ -37,7 +49,7 @@ const LineChart = ({ data }) => {
     );
                 
     return (
-        <div className="absolute left-20">
+        <div className="absolute right-0">
             <svg className="ml-3 mt-2" height={height} width={width} style={{overflow: 'visible'}}>
                 <Line points={linePoints} />
             </svg>       

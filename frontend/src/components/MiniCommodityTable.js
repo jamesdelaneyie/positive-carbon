@@ -19,7 +19,7 @@ const MiniCommodityTable = (props) => {
     return (
 
             <NavLink to={`/commodities/${symbol}`} className="block">
-                <article className="group relative border border-stone-200 rounded p-4">
+                <article className="group relative border border-slate-200 rounded p-4 mini-chart">
                     <div className="relative flex justify-between">
                         <div className="mini-commodity-table-bg relative z-20 pr-15">
                             <p className="group-hover:underline font-medium whitespace-nowrap">{commodity.name} </p>

@@ -24,7 +24,7 @@ const Dashboard = (props) => {
 
                 <h1 className="text-xl font-bold mb-4 block">Latest Prices</h1>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
                     {commodities ? commodities.map((commodity, index) => (
                         index < 12 &&
                         <MiniCommodityTable key={index} commodity={commodity} />

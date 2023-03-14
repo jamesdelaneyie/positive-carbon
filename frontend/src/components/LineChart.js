@@ -1,7 +1,10 @@
+import React, { useState, useEffect } from 'react';
+
 const LineChart = ({ data }) => {
 
-    //console.log(data)
-
+    const [chartRange, setChartRange] = useState("1Y")
+    const [width, setWidth] = useState(500);
+    
     //reverse the order of the array
     const chartData = data.slice()
     chartData.reverse();
@@ -16,7 +19,17 @@ const LineChart = ({ data }) => {
     const minPrice = Math.min(...chartData.map(d => Number(d.price)));
 
     const height = 150;
-    const width = 460;
+
+    const handleResize = () => {
+      setWidth(document.querySelector(".chart").clientWidth - 40);
+    }
+    window.addEventListener('resize', handleResize);
+
+    useEffect(() => {
+      handleResize();
+    }, []);
+    
+
 
     // create an array of points for the line
     const points = chartData.map((d, i) => {
@@ -30,7 +43,7 @@ const LineChart = ({ data }) => {
     const XAxis = ({ data }) => (
         <g className="x-axis">
           {data.map((d, i) => {
-            if (i % 4 !== 0) {
+            if (i % 90 !== 0) {
               // skip every 4th entry
               return null;
             }
@@ -38,14 +51,17 @@ const LineChart = ({ data }) => {
             return (
               <g key={i} transform={`translate(${x}, 0)`}>
                 <line y2={height} stroke="#cecece" strokeWidth="0.5" />
+                {/* if its the first entry, add 20 to the x position */}
+                {/* if its the last entry, subtract 20 from the x position */}
                 <text
+                  x={i === 0 ? 20 : i === data.length - 1 ? -20 : 0}
                   y={height + 20}
                   textAnchor="middle"
                   fontSize="10"
                   fill="#2563eb"
                 >
                   {/* show the time only in HH:MM */}
-                  {d.date_created.slice(16, d.date_created.length - 7)}
+                  { (new Date(d.date_created)).toLocaleDateString() }
                 </text>
               </g>
             );
@@ -69,7 +85,7 @@ const LineChart = ({ data }) => {
         <g className="circles">
           {points.map((point, i) => {
             const [x, y] = point.split(",");
-            const radius = 3;
+            const radius = 1;
             return (
                 <g key={i}>
                     <Circle x={x} y={y} r={radius} fill="#2563eb" />
@@ -117,7 +133,7 @@ const LineChart = ({ data }) => {
 
                 
     return (
-        <main className="p-4 border border-stone-200 rounded mb-3">
+        <main className="p-4 border border-slate-200 rounded mb-3 pb-10">
             <div className="chart">
                 <svg className="ml-3 mt-2" height={height} width={width} style={{overflow: 'visible'}}>
                     <XAxis data={chartData} />
@@ -125,13 +141,13 @@ const LineChart = ({ data }) => {
                     <Circles points={points} />
                     <Line points={linePoints} />
                 </svg>       
-                <ul className="flex justify-center text-xs font-medium border border-stone-200 mt-10 rounded overflow-hidden">
-                    <li className="flex-1 text-center text-stone-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1D</li>
-                    <li className="flex-1 text-center text-stone-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1W</li>
-                    <li className="flex-1 text-center text-stone-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1M</li>
-                    <li className="flex-1 text-center text-stone-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1Y</li>
-                    <li className="flex-1 text-center text-stone-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">ALL</li>
-                </ul>
+                {/*<ul className="flex justify-center text-xs font-medium border border-slate-200 mt-10 rounded overflow-hidden">
+                    <li className="flex-1 text-center text-slate-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1D</li>
+                    <li className="flex-1 text-center text-slate-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1W</li>
+                    <li className="flex-1 text-center text-slate-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1M</li>
+                    <li className="flex-1 text-center text-slate-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">1Y</li>
+                    <li className="flex-1 text-center text-slate-600 p-2 hover:bg-blue-500 hover:text-white hover:cursor-pointer">ALL</li>
+                </ul>*/}
             </div>
         </main>
     )

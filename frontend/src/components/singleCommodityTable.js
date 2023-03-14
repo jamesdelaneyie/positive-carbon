@@ -47,7 +47,6 @@ const SingleCommodityTable = (props) => {
             commodityDescription.current = data['info'].description;
 
             fetch('https://newsapi.org/v2/everything?q='+ commodityName.current + '%20finance&apiKey=a11e9ab294f749fb8a54acff4c7bca64&pageSize=4').then(res => res.json()).then(data => {
-                //console.log(data)
                 setCommodityNews(data['articles']);
             });
 
@@ -67,7 +66,7 @@ const SingleCommodityTable = (props) => {
 
 
       return (
-        <article className="bg-white mb-auto p-4 sm:w-full md:w-3/6 lg:w-2/6">
+        <article className="bg-white mb-auto p-4 pt-2 sm:w-full md:w-3/6 lg:w-2/6">
 
             <NavLink className="inline-block text-sm mb-2 text-blue-500 hover:underline" to={`/commodities/`}>
                &larr; Return to all commodities
@@ -80,7 +79,7 @@ const SingleCommodityTable = (props) => {
             {commodityPrices && commodityName.current && <CommodityHistoricalData commodityName={commodityName.current} commodityPrices={commodityPrices} />}
 
             {commodityNews && (
-                <header className="relative border border-stone-200 rounded">
+                <header className="relative border border-slate-200 rounded">
                     <div className="relative p-4">
                         <h2 className="font-bold mb-4">{commodityName.current} News</h2>
                         
@@ -98,7 +97,7 @@ const SingleCommodityTable = (props) => {
                                         )}
                                     </div>
                                     <div className="w-4/5 pl-3 pr-7">
-                                        <span style={{marginTop: "-1px"}} className="truncate block text-xs font-medium text-slate-500 mb-1">{news.author}: {news.source.name} - { (new Date(news.publishedAt)).toLocaleDateString() }</span>
+                                        <span style={{marginTop: "-1px"}} className="truncate block text-xs font-medium text-slate-500 mb-1">{ (new Date(news.publishedAt)).toLocaleDateString() } - {news.author}: {news.source.name}</span>
                                         <h4 className="text-md font-bold mb-1 leading-tight	">
                                             <a href={news.url} target="_blank" rel="noreferrer" className="hover:underline">{news.title}</a>
                                         </h4>

@@ -10,7 +10,7 @@ const Footer = () => {
                         <a href="/about" className="hover:underline">About</a>
                     </li>
                     <li className="inline">
-                        Data Source: <a href="https://commodities-api.com/" className="hover:underline">Commodities-API</a>
+                        Live Data Source: <a href="https://commodities-api.com/" className="hover:underline">Commodities-API</a>.
                     </li>
                 </ul>
             </div>

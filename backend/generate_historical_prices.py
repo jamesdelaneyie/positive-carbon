@@ -13,7 +13,7 @@ symbols = 'ALU,COFFEE,BRENTOIL,CANO,LCO,COCOA,XCU,CORN,COTTON,CPO,ETHANOL,GFU22,
 today = datetime.date.today()
 
 # Calculate the date one year ago
-one_year_ago = today - datetime.timedelta(days=2)
+one_year_ago = today - datetime.timedelta(days=365)
 
 
 # iterate from a year ago to today and add an entry for each day for each commodity
@@ -25,6 +25,8 @@ for commodity in commodities:
     start_price = CommodityPrice.query.filter_by(commodity_id=commodity.id).first()
     start_price = start_price.price
     last_close = 0
+    if(commodity.symbol == 'COCOA'):
+        continue
     # iterate over the dates from a year ago to today
     # Iterate over every day from today to one year ago
     for i in range((today - one_year_ago).days + 1):
@@ -64,7 +66,7 @@ for commodity in commodities:
         print("   Change %: " + str(change_percentage))
 
         # create a new CommodityPrice object
-        """commodity_price = CommodityPrice(
+        commodity_price = CommodityPrice(
             commodity_id=commodity.id,
             currency=base_currency,
             price=price,
@@ -75,8 +77,9 @@ for commodity in commodities:
             change=change,
             change_percentage=change_percentage,
             date_created=date
-        )"""
+        )
 
         # save the price to the database
-        #db.session.add(price)
+        db.session.add(commodity_price)
+        db.session.commit()
     

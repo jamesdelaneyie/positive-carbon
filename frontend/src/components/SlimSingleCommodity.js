@@ -8,7 +8,7 @@ const SlimSingleCommodity = ({ commodity }) => {
 
 
     return (
-        <div className="p-4 bg-white border border-stone-200 rounded mb-2">
+        <div className="p-4 bg-white border border-slate-200 rounded mb-2">
             <div className="flex">
                 <div>
                     <span style={{color: generatedColor.text, backgroundColor: generatedColor.color, borderColor: generatedColor.borderColor }} className="bg-slate-100 border rounded-full w-10 h-10 inline-block relative top-1">

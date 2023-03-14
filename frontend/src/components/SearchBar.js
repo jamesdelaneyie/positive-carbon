@@ -24,7 +24,7 @@ const SearchBar = () => {
     }
 
     return (
-      <div style={{top: "-2px" }} className="relative w-60 relative z-10">
+      <div style={{top: "-2px" }} className="relative w-60 relative z-10 search-bar">
         <input
             className="w-full border border-stone-200 rounded p-2"
             type="text"

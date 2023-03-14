@@ -6,6 +6,7 @@ function Register() {
     const [registerForm, setRegisterForm] = useState({
       email: "",
       username: "",
+      phone_number: "",
       password: ""
     })
 
@@ -20,6 +21,7 @@ function Register() {
         url:"/api/register",
         data:{
           email: registerForm.email,
+          phone_number: registerForm.phone_number,
           username: registerForm.username,
           password: registerForm.password
          }
@@ -41,6 +43,7 @@ function Register() {
       setRegisterForm((
         {
           email: "",
+          phone_number: "",
           username: "",
           password: ""
         }
@@ -66,7 +69,7 @@ function Register() {
 
             {!success && <form className="login">
                 <input 
-                    className="w-full border border-stone-200 rounded p-2 mb-2"
+                    className="w-full border border-slate-200 rounded p-2 mb-2"
                     onChange={handleChange} 
                     type="email"
                     text={registerForm.email} 
@@ -74,15 +77,15 @@ function Register() {
                     placeholder="Email Address" 
                     value={registerForm.email} />
                 <input 
-                    className="w-full border border-stone-200 rounded p-2 mb-2"
+                    className="w-full border border-slate-200 rounded p-2 mb-2"
                     onChange={handleChange} 
                     type="phone"
-                    text={registerForm.phone} 
-                    name="phone" 
+                    text={registerForm.phone_number} 
+                    name="phone_number" 
                     placeholder="Phone Number" 
-                    value={registerForm.phone} />
+                    value={registerForm.phone_number} />
                 <input 
-                    className="w-full border border-stone-200 rounded p-2 mb-2"
+                    className="w-full border border-slate-200 rounded p-2 mb-2"
                     onChange={handleChange} 
                     type="text"
                     text={registerForm.username} 
@@ -90,7 +93,7 @@ function Register() {
                     placeholder="Name" 
                     value={registerForm.username} />
                 <input 
-                    className="w-full border border-stone-200 rounded p-2 mb-2"
+                    className="w-full border border-slate-200 rounded p-2 mb-2"
                     onChange={handleChange} 
                     type="password"
                     text={registerForm.password} 

@@ -113,3 +113,29 @@ input[type=number]::-webkit-outer-spin-button {
 .user-watchlist {
     min-height: calc(100vh - 155px)
 }
+
+.nav-bar {
+    min-width: 575px !important;
+    justify-content: space-between;
+}
+@media (max-width: 500px) {
+    .nav-bar {
+        min-width: 100% !important;
+    }
+    .search-bar {
+        width: 115px !important;
+    }
+    article {
+        max-width: 100% !important;
+        min-width: 100% !important;
+    }
+    .about-page {
+        width: calc(100% - 20px) !important;
+    }
+}
+
+@layer utilities {
+    .h-350 {
+      height: 350px;
+    }
+  }

@@ -53,7 +53,7 @@ function Login(props) {
           {error && <p className="bg-red-500 p-2 pl-4 rounded text-sm mb-3 text-white">{errorMessage}</p>}
           <form className="login">
             <input 
-                  className="w-full border border-stone-200 rounded p-2 mb-2"
+                  className="w-full border border-slate-200 rounded p-2 mb-2"
                   onChange={handleChange} 
                   type="email"
                   text={loginForm.email} 
@@ -61,7 +61,7 @@ function Login(props) {
                   placeholder="Email" 
                   value={loginForm.email} />
             <input 
-                  className="w-full border border-stone-200 rounded p-2 mb-2"
+                  className="w-full border border-slate-200 rounded p-2 mb-2"
                   onChange={handleChange} 
                   type="password"
                   text={loginForm.password} 
@@ -71,7 +71,7 @@ function Login(props) {
                   value={loginForm.password} />
 
           <button className="text-white py-2 px-4 rounded mr-3 bg-blue-600 hover:bg-blue-700" onClick={logMeIn}>Submit</button>
-          <a href="/register" className="text-stone-500 hover:underline text-sm">Register</a>
+          <a href="/register" className="text-slate-500 hover:underline text-sm">Register</a>
         </form>
         </div>
       </article>

@@ -75,7 +75,7 @@ const PriceAlertDialog = (props) => {
                                     </h3>
                                     <div className="mt-2">
                                         <p className="text-gray-500">
-                                            Set a price alert for <span className="font-bold">{props.name}</span> ({props.symbol}) at <input type="number" min="0" step="0.01" defaultValue={price} onChange={(e) => { handleChange(e) }} className="ml-2 w-40 border p-1 text-right border-gray-300 rounded-md price-alert-number-input" />
+                                            Set a price alert for <span className="font-bold">{props.name}</span> ({props.symbol}) at <input type="number" min="0" step="0.01" defaultValue={price} onChange={(e) => { handleChange(e) }} style={{width: "120px"}} className="ml-2 border p-1 text-right border-gray-300 rounded-md price-alert-number-input" />
                                         </p>
                                     </div>
                                 </div>

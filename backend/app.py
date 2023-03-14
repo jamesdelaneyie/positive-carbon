@@ -26,7 +26,7 @@ admin.add_view(ModelView(Commodity, db.session))
 class CommodityPriceView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    column_list = ('id', 'commodity', 'price', 'currency', 'date_created')
+    column_list = ('id', 'commodity', 'price', 'high', 'low', 'close', 'change', 'currency', 'date_created')
 
 admin.add_view(CommodityPriceView(CommodityPrice, db.session))
 admin.add_view(ModelView(User, db.session))
@@ -94,6 +94,7 @@ def signup():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
     username = request.json.get('username', None)
+    phone_number = request.json.get('phone_number', None)
 
     if not email:
         return jsonify({"msg": "Email is required"}), 400
@@ -106,7 +107,7 @@ def signup():
     if user:
         return jsonify({"msg": "Email already exists"}), 400
 
-    user = User(email=email, username=username, password=password)
+    user = User(email=email, username=username, password=password, phone_number=phone_number)
     user.set_password(password)
     db.session.add(user)
     db.session.commit()

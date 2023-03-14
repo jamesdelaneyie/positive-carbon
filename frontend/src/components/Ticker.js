@@ -15,7 +15,7 @@ const Ticker = () => {
     return (
         <div className="bg-white ticker-marquee border-b-1">
             <ul className="ticker-marquee__content relative">
-                <li className="absolute text-xs bg-stone-100 text-stone-500 font-medium p-1 pt-2 hidden">Latest Update: Today</li>
+                <li className="absolute text-xs bg-slate-100 text-slate-500 font-medium p-1 pt-2 hidden">Latest Update: Today</li>
                 {commodities.map((commodity, index) =>
                 commodity.price_change === "same" ? null : (
                     <li key={index} className="inline mr-4">
@@ -33,7 +33,7 @@ const Ticker = () => {
             )}
             </ul>
             <ul className="ticker-marquee__content relative" aria-hidden="true">
-                <li className="absolute text-xs bg-stone-100 text-stone-500 font-medium p-1 pt-2 hidden">Latest Update: Today</li>
+                <li className="absolute text-xs bg-slate-100 text-slate-500 font-medium p-1 pt-2 hidden">Latest Update: Today</li>
                 {commodities.map((commodity, index) =>
                 commodity.price_change === "same" ? null : (
                     <li key={index} className="inline mr-4">

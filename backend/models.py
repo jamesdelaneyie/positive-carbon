@@ -1,6 +1,14 @@
+import os
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from twilio.rest import Client
+
+
 db = SQLAlchemy()
+
+account_sid = 'ACd95766ba72f3d08917fbcbc6eb128216'
+auth_token = '8abcb552d9ed64cad53cf7b42c7dbcf7'
+client = Client(account_sid, auth_token)
 
 class BaseModel(db.Model):
     """
@@ -121,7 +129,7 @@ class CommodityPrice(BaseModel):
     volume = db.Column(db.Float, nullable=True)
     change = db.Column(db.Float, nullable=True)
     change_percentage = db.Column(db.Float, nullable=True)
-    
+
     # created_at comes from the BaseModel
     # populated at the time of creation with either the current datetime (live) or date from the API (historical)
     # date_created = db.Column(db.DateTime, nullable=False)
@@ -137,22 +145,52 @@ class CommodityPrice(BaseModel):
             for price_alert in price_alerts:
                 # check if the price has crossed the alert price
                 if self.price < price_alert.price:
+                    # get the name of the commodity
+                    commodity_name = Commodity.query.filter_by(id=self.commodity_id).first().name
+                    reciever_username = price_alert.user.username
+                    # get the user's phone number
+                    user = User.query.filter_by(username=reciever_username).first()
+                    # send the user a text message
+                    price_for_update = f'{self.price:.2f}'
+                    sms_message = "\nHey " + reciever_username + ", the price of " + commodity_name + " has dropped to €" + str(price_for_update) + "! \n\nSent from PricePulse."
+                    message = client.messages.create(
+                        body=sms_message,
+                        from_='+15073796464',
+                        to=user.phone_number
+                    )
+                    #print(message.sid)
                     print('Price Alert Drop')
                 elif self.price > price_alert.price:
+                    # get the name of the commodity
+                    commodity_name = Commodity.query.filter_by(id=self.commodity_id).first().name
+                    reciever_username = price_alert.user.username
+                    # get the user's phone number
+                    user = User.query.filter_by(username=reciever_username).first()
+                    # send the user a text message
+                    price_for_update = f'{self.price:.2f}'
+                    sms_message = "\nHey " + reciever_username + ", the price of " + commodity_name + " has risen to €" + str(price_for_update) + "! \n\nSent from PricePulse."
+                    message = client.messages.create(
+                        body=sms_message,
+                        from_='+15073796464',
+                        to=user.phone_number
+                    )
+                    #print(message.sid)
                     print('Price Alert Increase')
     
+
     def __repr__(self):
         return f'{self.price}'
 
     def to_dict(self):
         return {
             'commodity_id': self.commodity_id,
-            'price': f'{self.price:.2f}',
-            #'open': f'{self.open:.2f}',
-            #'high': f'{self.high:.2f}',
-            #'low': f'{self.low:.2f}',
-            #'close': f'{self.close:.2f}',
-            #'volume': f'{self.volume:.2f}',
+            'price': self.price,
+            'high': self.high,
+            'low': self.low,
+            'close': self.close,
+            'volume': self.volume,
+            'change': self.change,
+            'change_percentage': self.change_percentage,
             'date_created': self.date_created,
             'time': self.date_created.strftime('%H:%M:%S')
         }
@@ -168,7 +206,7 @@ class User(BaseModel):
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    #phone_number = db.Column(db.String(100), nullable=False)
+    phone_number = db.Column(db.String(100), nullable=True)
 
     # check password against the hashed password
     def check_password(self, password):
@@ -180,18 +218,20 @@ class User(BaseModel):
         self.password = hashed_password
 
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, phone_number, password):
         self.username = username
         self.email = email
+        self.phone_number = phone_number
         self.set_password(password)
 
     def __repr__(self):
-        return f'{self.username} - {self.email}'
+        return f'{self.username}'
     
     def to_dict(self):
         return {
             'id': self.id,
             'username': self.username,
+            'phone_number': self.phone_number,
             'email': self.email
         }
 
