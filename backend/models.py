@@ -6,8 +6,9 @@ from twilio.rest import Client
 
 db = SQLAlchemy()
 
-account_sid = 'ACd95766ba72f3d08917fbcbc6eb128216'
-auth_token = '8abcb552d9ed64cad53cf7b42c7dbcf7'
+account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+
 client = Client(account_sid, auth_token)
 
 class BaseModel(db.Model):

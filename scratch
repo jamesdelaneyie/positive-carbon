@@ -1,0 +1,16 @@
+docker tag frontend pricepulse.azurecr.io/frontend:v1
+docker push pricepulse.azurecr.io/frontend:v1
+
+docker tag backend pricepulse.azurecr.io/backend:v1
+docker push pricepulse.azurecr.io/backend:v1
+
+az webapp create --resource-group resource_group_1 --plan myappserviceplan --name myapp --deployment-container-image-name myacr.azurecr.io/myapp:v1
+
+az webapp config appsettings set --resource-group resource_group_1 --name pricepulseapi --settings WEBSITES_PORT=5000
+az container logs --resource-group resource_group_1 --name pricepulse_0_c2b8fc4a
+
+nginx -g 'daemon off;'
+
+flask db stamp head
+flask db migrate
+flask db upgrade

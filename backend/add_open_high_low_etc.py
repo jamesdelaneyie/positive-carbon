@@ -5,6 +5,7 @@ app.app_context().push()
 
 import requests
 import json
+import os
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,8 +14,9 @@ endpoint = 'open-high-low-close'
 symbols = 'POTATOES'
 date = '2023-03-09'
 aYearAgo = '2023-01-09'
-access_key = 'knxbsx6g27duqwd30w8tna7lbj59z8r83rdjesfn37p31cdqe799tum72qsd'
-access_key_2 = 'a5zd0kdh2inweg1y2812m0qiasmdy0tb2ejthwssi20f95g1sclel2g4qjin'
+# get the api key from the environment
+access_key_1 = os.environ.get('COMMODITIES_API_KEY_1')
+access_key_2 = os.environ.get('COMMODITIES_API_KEY_2')
 
 
 

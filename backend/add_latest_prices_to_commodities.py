@@ -5,13 +5,14 @@ app.app_context().push()
 
 import requests
 import json
+import os
 from flask_sqlalchemy import SQLAlchemy
 
 base_currency = 'EUR'
 endpoint = 'latest'
 symbols = 'ALU,COFFEE,BRENTOIL,CANO,LCO,COCOA,XCU,CORN,COTTON,CPO,ETHANOL,GFU22,XAU,HOU22,IRD,LHOG,LCAT,LGOU22,LUMBER,NG,COAL,NI,OAT,XPD,XPT,POTATOES,XRX22,RICE,XRP2,ROBUSTA,RUBBER,RUTH,XAG,SOYBEAN,SUGAR,TIN,UK-EL,UK-NG,ZWH23,WTIOIL,ZNC'
-access_key = 'knxbsx6g27duqwd30w8tna7lbj59z8r83rdjesfn37p31cdqe799tum72qsd'
-access_key_2 = 'a5zd0kdh2inweg1y2812m0qiasmdy0tb2ejthwssi20f95g1sclel2g4qjin'
+access_key_1 = os.environ.get('COMMODITIES_API_KEY_1')
+access_key_2 = os.environ.get('COMMODITIES_API_KEY_2')
 
 api_url = 'https://commodities-api.com/api/'+endpoint+'?access_key='+access_key_2+'&base='+base_currency+'&symbols='+symbols
 
